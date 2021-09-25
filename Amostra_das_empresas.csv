@@ -1,21 +1,21 @@
-industry,,company_id,industry
-Metals and Mining,1358,225229546,Metals and Mining
-Metals and Mining,6446,273607,Metals and Mining
-Metals and Mining,814,215010012,Metals and Mining
-Metals and Mining,1060,12701444,Metals and Mining
-Metals and Mining,3603,881628,Metals and Mining
-"Oil, Gas and Consumable Fuels",4318,358534,"Oil, Gas and Consumable Fuels"
-"Oil, Gas and Consumable Fuels",3798,877200,"Oil, Gas and Consumable Fuels"
-"Oil, Gas and Consumable Fuels",6511,258181,"Oil, Gas and Consumable Fuels"
-"Oil, Gas and Consumable Fuels",1372,121373,"Oil, Gas and Consumable Fuels"
-"Oil, Gas and Consumable Fuels",3844,411108,"Oil, Gas and Consumable Fuels"
-Road and Rail,7642,3079228,Road and Rail
-Road and Rail,5608,353020,Road and Rail
-Road and Rail,7633,25063,Road and Rail
-Road and Rail,854,39928186,Road and Rail
-Road and Rail,2592,874496,Road and Rail
-"Textiles, Apparel and Luxury Goods",5029,2582196,"Textiles, Apparel and Luxury Goods"
-"Textiles, Apparel and Luxury Goods",2660,875663,"Textiles, Apparel and Luxury Goods"
-"Textiles, Apparel and Luxury Goods",6710,294483,"Textiles, Apparel and Luxury Goods"
-"Textiles, Apparel and Luxury Goods",6767,527748,"Textiles, Apparel and Luxury Goods"
-"Textiles, Apparel and Luxury Goods",7792,347145,"Textiles, Apparel and Luxury Goods"
+,company_id,industry,Environmental Dimension,Governance & Economic Dimension,S&P Global ESG Score,Social Dimension
+0,364040,Metals and Mining,53.55386933333334,49.80587235294117,49.24215049,44.34962812121212
+1,409115,Metals and Mining,83.00971403125,76.18773454545456,80.01854168,80.89565908571429
+2,1610580,Metals and Mining,1.3,12.483636363636364,4.652013030000001,0.0
+3,392371,Metals and Mining,72.5281603125,60.41389987878788,68.99011025,73.84146348571429
+4,874320,Metals and Mining,33.02974865625,59.92699815151515,42.56960462,34.926216514285706
+5,8968463,"Oil, Gas and Consumable Fuels",0.7096774193548387,15.643699676470586,10.057858020000001,12.911428571428571
+6,6276617,"Oil, Gas and Consumable Fuels",8.772119615384614,12.869177071428572,9.84780554,6.75625
+7,3479967,"Oil, Gas and Consumable Fuels",50.0158361875,36.48856024242424,45.13188147000001,48.8159692
+8,394466,"Oil, Gas and Consumable Fuels",44.80117215384616,50.01502904761905,47.64257434,46.83736740625
+9,2862940,"Oil, Gas and Consumable Fuels",1.064516129032258,5.942960499999999,5.67660631,9.502857142857144
+10,36567370,Road and Rail,34.65276111111111,29.286865411764705,28.055029749999996,22.41346153846154
+11,6461807,Road and Rail,11.65211674074074,9.200039764705883,9.873835110000002,9.230128205128207
+12,6256800,Road and Rail,51.843841000000005,57.00462279411764,51.56839815,46.63843397435898
+13,34177478,Road and Rail,11.029693592592594,0.0,10.49937845,0.0
+14,30675,Road and Rail,5.907407407407407,22.258271294117648,9.16281203,0.0
+15,878483,"Textiles, Apparel and Luxury Goods",2.5454545454545454,0.0,13.00014382,16.24864864864865
+16,399462,"Textiles, Apparel and Luxury Goods",0.6363636363636364,19.899176243902435,8.85866242,1.5135135135135136
+17,327333,"Textiles, Apparel and Luxury Goods",3.5454545454545454,24.40336987804878,13.57388162,7.536486486486487
+18,875547,"Textiles, Apparel and Luxury Goods",10.215647636363636,11.044577292682927,10.2317082,9.34051145945946
+19,291981,"Textiles, Apparel and Luxury Goods",70.376502,59.36582173170732,55.84141837999999,43.293516405405406
