@@ -14,7 +14,7 @@ from flask_cors import CORS
 app = Flask(__name__)
 CORS(app)
 
-df_predict_scores = pd.read_csv("data/Amostra_das_empresas.csv", sep=";")
+df_predict_scores = pd.read_csv("data/Amostra_das_empresas.csv")
 df_companies = pd.read_csv("data/companies_all.csv")
 df_esg = pd.read_csv("data/esg_scores_history_rated.csv")
 df_esg["assessment_year"] = pd.to_datetime(df_esg["assessment_year"],format="%Y")
