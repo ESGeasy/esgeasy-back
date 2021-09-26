@@ -90,3 +90,7 @@ def filterById(id):
     data_and_image["data"] = data
     data_and_image["image"] = history
     return data_and_image
+
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0')
