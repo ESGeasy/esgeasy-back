@@ -130,7 +130,7 @@ def get_history(company_id):
     plt.savefig(image_bytes, format='jpg')
     image_bytes.seek(0)
     my_base64_jpg_data = base64.b64encode(image_bytes.read())
-    return str(my_base64_jpg_data)
+    return str(my_base64_jpg_data.decode("utf-8"))
 
 @app.route("/companies/<int:company_id>")
 def filter_by_id(company_id):
