@@ -17,13 +17,15 @@ df_esg.fillna(0,inplace=True)
 dims = ['Environmental Dimension', 'Governance & Economic Dimension',
        'S&P Global ESG Score', 'Social Dimension']
 
+SECTORS = ['Oil, Gas and Consumable Fuels', 'Metals and Mining',
+           'Road and Rail', 'Textiles, Apparel and Luxury Goods']
 @app.route("/futureRanking/<string:sector>/<string:score>")
 def getScores(sector,score):
     sectors = [sector]
     if score == None:
         score = "S&P Global ESG Score"
     if sector == "All":  
-        sectors = dims
+        sectors = SECTORS
         
     mask = df_predict_scores["industry"].isin(sectors)
     data = df_predict_scores[mask][["company_id", "company_name", score]].sort_values(by=[score],ascending=[False])
@@ -37,7 +39,7 @@ def getCurrentScores(sector,score):
     if score == None:
         score = "S&P Global ESG Score"
     if sector == "All":  
-        sectors = dims
+        sectors = SECTORS
 
     mask = df_predict_scores[df_predict_scores["industry"].isin(sectors)]
     data = df_predict_scores[mask][["company_id", "company_name", score]].sort_values(by=[score],ascending=[False])
