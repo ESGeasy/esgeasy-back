@@ -142,10 +142,10 @@ def filter_by_id(company_id):
     company_id: id da compania que deseja o histórico
     """
     mask = df_companies["company_id"] == company_id
-    data = df_companies[mask].T.to_json()
+    data = df_companies[mask].T.to_dict()
     history = get_history(company_id)
     data_and_image = {}
-    data_and_image["data"] = data
+    data_and_image["data"] = data[list(data.keys())[0]]
     data_and_image["image"] = history
     return data_and_image
 
