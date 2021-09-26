@@ -15,14 +15,29 @@ dims = ['Environmental Dimension', 'Governance & Economic Dimension',
 
 app = Flask(__name__)
 
-@app.route("/filter/<string:sector>/<string:score>")
+@app.route("/futureRanking/<string:sector>/<string:score>")
 def getScores(sector,score):
+    sectors = [sector]
     if score == None:
-        score =  "S&P Global ESG Score"
-    if sector == None:
-        sector =  "Oil, Gas and Consumable Fuels"  
-    mask = df_scores["industry"] == sector
-    data = df_scores[mask][["company_id","company_name",score]].sort_values(by=score,ascending=False)
+        score = "S&P Global ESG Score"
+    if sector == "All":  
+        sectors = dims
+        
+    mask = df_scores["industry"].isin(sectors) 
+    data = df_scores[mask][["company_id", "company_name", score]].sort_values(by=score,ascending=False)
+    print(data)
+    return data.T.to_json()
+
+@app.route("/ranking/<string:sector>/<string:score>")
+def getCurrentScores(sector,score):
+    sectors = [sector]
+    if score == None:
+        score = "S&P Global ESG Score"
+    if sector == "All":  
+        sectors = dims
+        
+    mask = df_scores["industry"].isin(sectors) 
+    data = df_scores[mask][["company_id", "company_name", score]].sort_values(by=score,ascending=False)
     print(data)
     return data.T.to_json()
 
