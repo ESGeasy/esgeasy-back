@@ -46,7 +46,8 @@ def get_scores(sector,score):
     mask = df_predict_scores[df_predict_scores["industry"].isin(sectors)]
     data = mask[["company_id", "company_name", score]]\
                 .sort_values(by=[score], ascending=[False])\
-                .rename(columns={score:'score'})
+                .rename(columns={score:'score'})\
+                .reset_index()
     return data.T.to_json()
 
 @app.route("/ranking/<string:sector>/<string:score>")
@@ -83,7 +84,8 @@ def get_current_scores(sector,score):
     data = mask[["company_id", "company_name"]]\
                 .merge(summation.to_frame(name=score),left_on="company_id",right_index=True)\
                 .sort_values(by=[score], ascending=[False])\
-                .rename(columns={score:'score'})
+                .rename(columns={score:'score'})\
+                .reset_index()
     return data.T.to_json()
 
 def single_sum(dataframe):
