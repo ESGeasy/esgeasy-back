@@ -1,6 +1,5 @@
 # ESGeasy Back
 
-<a href="https://codeclimate.com/github/CorchoForce/user-cleaner/maintainability"><img src="https://api.codeclimate.com/v1/badges/4d557edf5762792e521e/maintainability" /></a>
 
 ![demonstration](https://cdn.discordapp.com/attachments/539836343094870016/891721423893168198/unknown.png)
 
