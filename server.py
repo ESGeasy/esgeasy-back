@@ -10,6 +10,7 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 from flask_cors import CORS
+from urllib.parse import unquote
 
 app = Flask(__name__)
 CORS(app)
@@ -19,6 +20,23 @@ df_companies = pd.read_csv("data/companies_all.csv")
 df_esg = pd.read_csv("data/esg_scores_history_rated.csv")
 df_esg["assessment_year"] = pd.to_datetime(df_esg["assessment_year"],format="%Y")
 df_esg.fillna(0,inplace=True)
+
+
+df_predict_scores['industry'] = df_predict_scores['industry'].str.replace('Environmental Dimension','Dimensão Ambiental')
+df_predict_scores['industry'] = df_predict_scores['industry'].str.replace('Governance & Economic Dimension','Dimensão de Governança e Econômica')
+df_predict_scores['industry'] = df_predict_scores['industry'].str.replace('S&P Global ESG Score','Pontuação ESG Global')
+df_predict_scores['industry'] = df_predict_scores['industry'].str.replace('Social Dimension','Dimensão Social')
+
+df_esg['aspect'] = df_esg['aspect'].str.replace('Environmental Dimension','Dimensão Ambiental')
+df_esg['aspect'] = df_esg['aspect'].str.replace('Governance & Economic Dimension','Dimensão de Governança e Econômica')
+df_esg['aspect'] = df_esg['aspect'].str.replace('S&P Global ESG Score','Pontuação ESG Global')
+df_esg['aspect'] = df_esg['aspect'].str.replace('Social Dimension','Dimensão Social')
+
+df_esg['parent_aspect'] = df_esg['parent_aspect'].str.replace('Environmental Dimension','Dimensão Ambiental')
+df_esg['parent_aspect'] = df_esg['parent_aspect'].str.replace('Governance & Economic Dimension','Dimensão de Governança e Econômica')
+df_esg['parent_aspect'] = df_esg['parent_aspect'].str.replace('S&P Global ESG Score','Pontuação ESG Global')
+df_esg['parent_aspect'] = df_esg['parent_aspect'].str.replace('Social Dimension','Dimensão Social')
+
 
 DIMS = ['Dimensão Ambiental', 'Dimensão de Governança e Econômica',
        'Pontuação ESG Global', 'Dimensão Social']
@@ -37,6 +55,8 @@ def get_scores(sector,score):
     score: O tipo de métrica que se deseja analisar. Pode ser um dos componentes do ESG
     ou um agregado das 3
     """
+    sector = unquote(sector)
+    score = unquote(score)
     sectors = [sector]
     if score is None:
         score = "Pontuação ESG Global"
@@ -61,8 +81,8 @@ def get_current_scores(sector,score):
     score: O tipo de métrica que se deseja analisar. Pode ser um dos componentes do ESG
     ou um agregado das 3
     """
-    sector = sector.replace("%20"," ")
-    score = score.replace("%20"," ")
+    sector = unquote(sector)
+    score = unquote(score)
     sectors = [sector]
     if score is None:
         score = "Pontuação ESG Global"
@@ -81,6 +101,7 @@ def get_current_scores(sector,score):
                 (df_esg["assessment_year"] == last_year) & \
                 (df_esg[type_] == score)
     summation = df_esg[esg_mask].groupby("company_id").apply(single_sum)
+
     data = mask[["company_id", "company_name"]]\
                 .merge(summation.to_frame(name=score),left_on="company_id",right_index=True)\
                 .sort_values(by=[score], ascending=[False])\
