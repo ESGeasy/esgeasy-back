@@ -29,6 +29,7 @@ def getScores(sector,score):
         
     mask = df_predict_scores["industry"].isin(sectors)
     data = mask[["company_id", "company_name", score]].sort_values(
+        by=[score], ascending=[False])
     return data.T.to_json()
 
 @app.route("/ranking/<string:sector>/<string:score>")
