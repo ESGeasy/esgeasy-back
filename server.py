@@ -4,16 +4,18 @@ import numpy as np
 import matplotlib.pyplot as plt
 import io
 import base64
+from flask_cors import CORS
 
-df_scores = pd.read_csv("Amostra_das_empresas.csv")
+app = Flask(__name__)
+CORS(app)
+
+df_predict_scores = pd.read_csv("Amostra_das_empresas.csv", sep=";")
 df_companies = pd.read_csv("companies_all.csv")
 df_esg = pd.read_csv("esg_scores_history_rated.csv")
 df_esg["assessment_year"] = pd.to_datetime(df_esg["assessment_year"],format="%Y")
 df_esg.fillna(0,inplace=True)
 dims = ['Environmental Dimension', 'Governance & Economic Dimension',
        'S&P Global ESG Score', 'Social Dimension']
-
-app = Flask(__name__)
 
 @app.route("/futureRanking/<string:sector>/<string:score>")
 def getScores(sector,score):
@@ -23,22 +25,22 @@ def getScores(sector,score):
     if sector == "All":  
         sectors = dims
         
-    mask = df_scores["industry"].isin(sectors) 
-    data = df_scores[mask][["company_id", "company_name", score]].sort_values(by=score,ascending=False)
-    print(data)
+    mask = df_predict_scores["industry"].isin(sectors)
+    data = df_predict_scores[mask][["company_id", "company_name", score]].sort_values(by=[score],ascending=[False])
     return data.T.to_json()
 
 @app.route("/ranking/<string:sector>/<string:score>")
 def getCurrentScores(sector,score):
+    sector = sector.replace("%20"," ")
+    score = score.replace("%20"," ")
     sectors = [sector]
     if score == None:
         score = "S&P Global ESG Score"
     if sector == "All":  
         sectors = dims
-        
-    mask = df_scores["industry"].isin(sectors) 
-    data = df_scores[mask][["company_id", "company_name", score]].sort_values(by=score,ascending=False)
-    print(data)
+
+    mask = df_predict_scores[df_predict_scores["industry"].isin(sectors)]
+    data = df_predict_scores[mask][["company_id", "company_name", score]].sort_values(by=[score],ascending=[False])
     return data.T.to_json()
 
 ## FUNCAO QUE DADO UM DATAFRAME FAZ A MEDIA PONDERADA
