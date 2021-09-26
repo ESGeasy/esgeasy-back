@@ -19,7 +19,8 @@ df_companies = pd.read_csv("data/companies_all.csv")
 df_esg = pd.read_csv("data/esg_scores_history_rated.csv")
 df_esg["assessment_year"] = pd.to_datetime(df_esg["assessment_year"],format="%Y")
 df_esg.fillna(0,inplace=True)
-dims = ['Environmental Dimension', 'Governance & Economic Dimension',
+
+DIMS = ['Environmental Dimension', 'Governance & Economic Dimension',
        'S&P Global ESG Score', 'Social Dimension']
 
 SECTORS = ['Oil, Gas and Consumable Fuels', 'Metals and Mining',
@@ -41,6 +42,7 @@ def get_scores(sector,score):
         score = "S&P Global ESG Score"
     if sector == "All":
         sectors = SECTORS
+
     mask = df_predict_scores[df_predict_scores["industry"].isin(sectors)]
     data = mask[["company_id", "company_name", score]]\
                 .sort_values(by=[score], ascending=[False])\
@@ -77,28 +79,28 @@ def get_current_scores(sector,score):
     esg_mask = (df_esg["company_id"].isin(ids)) & \
                 (df_esg["assessment_year"] == last_year) & \
                 (df_esg[type_] == score)
-    s = df_esg[esg_mask].groupby("company_id").apply(single_sum)
+    summation = df_esg[esg_mask].groupby("company_id").apply(single_sum)
     data = mask[["company_id", "company_name"]]\
-                .merge(s.to_frame(name=score),left_on="company_id",right_index=True)\
+                .merge(summation.to_frame(name=score),left_on="company_id",right_index=True)\
                 .sort_values(by=[score], ascending=[False])\
                 .rename(columns={score:'score'})
     return data.T.to_json()
 
-def single_sum(df):
+def single_sum(dataframe):
     """
     Funcao que dado um dataframe retorna a media ponderada de uma métrica ESG
     -------------------------------------------------------------------------
     Parameters:
-    df: dataframe a ser computado a media, contendo apenas os score_values de um
+    dataframe: dataframe a ser computado a media, contendo apenas os score_values de um
     dos aspectos do ESG
     """
     total = 0
     denom = 0
-    for _,row in df.iterrows():
-        w = row["score_weight"]
+    for _,row in dataframe.iterrows():
+        weigth = row["score_weight"]
         if row["score_value"] != np.nan:
-            total += row["score_value"]*w
-        denom += w
+            total += row["score_value"]*weigth
+        denom += weigth
     return total/denom
 
 def get_history(company_id):
@@ -109,23 +111,23 @@ def get_history(company_id):
     Parameter:
     company_id: id da compania que deseja o histórico
     """
-    _, ax = plt.subplots()
-    for dim in dims:
+    _, axis = plt.subplots()
+    for dim in DIMS:
         if dim == 'S&P Global ESG Score':
             type_ = "aspect"
         else:
             type_ = "parent_aspect"
         mask = (df_esg["company_id"] == company_id) & (df_esg[type_] == dim)
-        s = df_esg[mask].groupby("assessment_year").apply(single_sum)
-        s.plot(legend=True,ax=ax)
-    ax.legend(dims)
+        summation = df_esg[mask].groupby("assessment_year").apply(single_sum)
+        summation.plot(legend=True,ax=axis)
+    axis.legend(DIMS)
     plt.title("ESG Scores")
     plt.ylabel("Score")
     plt.xlabel("Ano")
-    my_string_IO_bytes = io.BytesIO()
-    plt.savefig(my_string_IO_bytes, format='jpg')
-    my_string_IO_bytes.seek(0)
-    my_base64_jpg_data = base64.b64encode(my_string_IO_bytes.read())
+    image_bytes = io.BytesIO()
+    plt.savefig(image_bytes, format='jpg')
+    image_bytes.seek(0)
+    my_base64_jpg_data = base64.b64encode(image_bytes.read())
     return str(my_base64_jpg_data)
 
 @app.route("/companies/<int:company_id>")
