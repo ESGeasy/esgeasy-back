@@ -26,4 +26,4 @@ jobs:
 
       - name: Analysing the code with pylint
         run : |
-          pylint --disable=E1136 server.py
+          pylint --disable=E1136,E1137,C0301 server.py
