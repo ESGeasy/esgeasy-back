@@ -5,12 +5,12 @@ conforme a rota selecionada e parâmetros passados
 
 import io
 import base64
+from urllib.parse import unquote
 from flask import Flask
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 from flask_cors import CORS
-from urllib.parse import unquote
 
 app = Flask(__name__)
 CORS(app)
